@@ -57,8 +57,7 @@ public class List {
     /** GIVE Adds a CharData object with the given character to the beginning of this list. */
     public void addFirst(char chr) {
         // Your code goes here
-        first = new Node(new CharData(chr), first);
-        size++;
+        update(chr);
     }
     
     /** GIVE Textual representation of this list. */
@@ -109,7 +108,8 @@ public class List {
             }
             current = current.next;
         }
-        addFirst(chr);
+        first = new Node(new CharData(chr), first);
+        size++;
     }
 
     /** GIVE If the given character exists in one of the CharData objects
