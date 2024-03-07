@@ -4,35 +4,6 @@
  *  the class represents a list of CharData objects. Likwise, the API of the class does not
  *  mention the existence of the Node objects). */
 public class List {
-    // public static void main(String[] args) {
-    //     //Make the word  "committe " in the list and add tests
-    //     List list = new List();
-    //     list.addFirst('e');
-    //     list.addFirst('t');
-    //     list.addFirst('t');
-    //     list.addFirst('i');
-    //     list.addFirst('m');
-    //     list.addFirst('m');
-    //     list.addFirst('o');
-    //     list.addFirst('c');
-
-    //     System.out.println(list.toString());
-    //     System.out.println(list.indexOf('m'));
-    //     System.out.println(list.indexOf('z'));
-    //     System.out.println(list.remove('m'));
-    //     System.out.println(list.remove('z'));
-    //     System.out.println(list.toString());
-    //     System.out.println(list.get(0));
-    //     System.out.println(list.get(1));
-    //     System.out.println(list.get(2));
-    //     System.out.println(list.toString());
-    //     System.out.println(list.getFirst());
-    //     System.out.println(list.getSize());
-    //     list.update('m');
-    //     System.out.println(list.toString());
-
-    // }
-    // Points to the first node in this list
     private Node first;
 
     // The number of elements in this list
@@ -49,6 +20,9 @@ public class List {
  	      return size;
     }
 
+    public Node getFirstNode() {
+        return this.first;
+    }
     /** Returns the first element in the list */
     public CharData getFirst() {
         return first.cp;
@@ -57,22 +31,25 @@ public class List {
     /** GIVE Adds a CharData object with the given character to the beginning of this list. */
     public void addFirst(char chr) {
         // Your code goes here
-        update(chr);
+        Node newNode = new Node(new CharData(chr));
+        newNode.next =  this.first;
+        this.first = newNode;
+        this.size++;
     }
     
     /** GIVE Textual representation of this list. */
     public String toString() {
         // Your code goes here
-        if (first == null) {
-            return "[]";
+        if (this.size == 0) {
+            return "()";
         }
-        String s = "[";
+        String s = "(";
         Node current = first;
         while (current != null) {
-            s += current.toString() + ", ";
+            s += current.cp.toString() + " ";
             current = current.next;
         }
-        s = s.substring(0, s.length() - 2) + "]"; // remove the last comma and space
+        s = s.substring(0, s.length() - 1) + ")"; // remove the last space
         return s;
     }
 
@@ -81,10 +58,11 @@ public class List {
      *  or -1 if there is no such object in this list. */
     public int indexOf(char chr) {
         // Your code goes here
-        Node current = first;
+        Node current = this.first;
         int i = 0;
+
         while (current != null) {
-            if (current.cp.chr == chr) {
+            if (current.cp.equals(chr)) {
                 return i;
             }
             current = current.next;
@@ -100,16 +78,21 @@ public class List {
      *  given chr to the beginning of this list. */
     public void update(char chr) {
         // Your code goes here
-        Node current = first;
-        while (current != null) {
-            if (current.cp.chr == chr) {
-                current.cp.count++;
-                return;
+        if (this.indexOf(chr) != -1) {
+
+            Node current = this.first;
+            while (current != null) {
+                if (current.cp.equals(chr)) {
+                    current.cp.count++;
+                    return;
+                }
+                current = current.next;
             }
-            current = current.next;
         }
-        first = new Node(new CharData(chr), first);
-        size++;
+        else{
+            this.addFirst(chr);
+        }
+        
     }
 
     /** GIVE If the given character exists in one of the CharData objects
@@ -122,14 +105,14 @@ public class List {
         }
         if (first.cp.chr == chr) {
             first = first.next;
-            size--;
+            this.size--;
             return true;
         }
         Node current = first;
         while (current != null) {
-            if (current.cp.chr == chr) {
+            if (current.cp.equals(chr)) {
                 current.next = current.next.next;
-                size--;
+                this.size--;
                 return true;
             }
             current = current.next;
@@ -142,7 +125,7 @@ public class List {
      *  throws an IndexOutOfBoundsException. */
     public CharData get(int index) {
         // Your code goes here
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > this.size) {
             throw new IndexOutOfBoundsException();
         }
         Node current = first;
