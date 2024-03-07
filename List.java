@@ -111,6 +111,10 @@ public class List {
         Node current = first;
         while (current != null) {
             if (current.cp.equals(chr)) {
+                //checks for null
+                if (current.next == null) {
+                    return false;
+                }
                 current.next = current.next.next;
                 this.size--;
                 return true;
