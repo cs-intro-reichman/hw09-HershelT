@@ -52,10 +52,10 @@ public class LanguageModel {
 
         // Reads just enough characters to form the first window
         for (int i = 0; i < this.windowLength; i++) {
-            // if (!in.isEmpty()) {
+            if (!in.isEmpty()) {
                 c = in.readChar();
                 window += c;
-            // }
+            }
         }
     
         // Processes the entire text, one character at a time
